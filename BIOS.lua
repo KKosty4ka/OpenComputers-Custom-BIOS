@@ -9,7 +9,7 @@ local function input(x, y)
     local running = true
     
     while running do
-        local e, _, _, c = computer.pullSignal()
+        local e, _, c, _ = computer.pullSignal()
         if e == "key_down" then
             if c == 13 then
                 running = false
@@ -40,7 +40,7 @@ end
 
 local function fillBackground()
 	local w,h = gpu.getResolution()
-	gpu.fill(1,1,w,h," ")
+	gpu.fill(1, 1, w, h, " ")
 end
 
 local function SetTextInTheMiddle(y,space,text,correct)
