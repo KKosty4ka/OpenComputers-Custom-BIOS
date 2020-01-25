@@ -5,7 +5,7 @@ local unicode = unicode or utf8
 local gpu = cp(cl("gpu")())
 
 local function input(x, y)
-    local output = ">"
+    local output = ""
     local running = true
     
     while running do
@@ -18,7 +18,7 @@ local function input(x, y)
                 output = output .. string.char(c)
             end
             
-            gpu.set(x, y, output)
+            gpu.set(x, y, ">" .. output)
         end
     end
     
@@ -133,12 +133,8 @@ local function menu()
     gpu.set(1, 4, "4 - BSoD")
     
     index = input(1, 6)
-    gpu.set(1, 10, type(index))
-    gpu.set(1, 11, index)
-    while true do
-        local deb = "Debugger!"
-    end
-    --[[if index == "1" then
+
+    if index == "1" then
         computer.shutdown(true)
     elseif index == "2" then
         computer.shutdown(false)
@@ -148,7 +144,7 @@ local function menu()
         error("BSoD", 0)
     else
         menu()
-    end]]
+    end
 end
 
 
@@ -157,7 +153,7 @@ local function HiMenu()
 	gpu.setBackground(0)
 	fillBackground()
 
-	gpu.set(11,1,"KKosty4ka's BIOS d debug")
+	gpu.set(11,1,"KKosty4ka's BIOS e")
 	gpu.set(7,15,"Press F12 to enter the settings menu")
 	gpu.set(8,16,"Press any key to skip this message")
 
