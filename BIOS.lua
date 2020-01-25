@@ -151,7 +151,7 @@ local function HiMenu()
 	gpu.setBackground(0)
 	fillBackground()
 
-	gpu.set(11,1,"KKosty4ka's BIOS")
+	gpu.set(11,1,"KKosty4ka's BIOS e")
 	gpu.set(7,15,"Press F12 to enter the settings menu")
 	gpu.set(8,16,"Press any key to skip this message")
 
