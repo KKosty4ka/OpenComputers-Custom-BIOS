@@ -186,7 +186,10 @@ local function httpBoot()
             end
 		end
         SetTextInTheMiddle(8,50,"Loading from URL...")
-        load(code)()
+        gpu.set(1, 1, code)
+        while true do
+            local hallow = "privet"
+        end
     end
 end
 
@@ -245,7 +248,7 @@ local function HiMenu()
 	gpu.setBackground(0)
 	fillBackground()
 
-	gpu.set(11,1,"KKosty4ka's BIOS e")
+	gpu.set(11,1,"KKosty4ka's BIOS e debug")
 	gpu.set(7,15,"Press F12 to enter the settings menu")
 	gpu.set(8,16,"Press any key to skip this message")
 
@@ -268,15 +271,16 @@ local function HiMenu()
 	if goToMenu then
         computer.beep()
 		menu()
-	end
-	BootWithoutAddress()
-    gpu.setBackground(0)
-	fillBackground()
-	SetTextInTheMiddle(8,50,"No bootable device found! Press F12 to reboot")
-
-	while true do
-		computer.beep()
-	end 
+	else
+        BootWithoutAddress()
+        gpu.setBackground(0)
+        fillBackground()
+        SetTextInTheMiddle(8,50,"No bootable device found!")
+        
+        while true do
+            computer.beep()
+        end 
+    end
 end
 ------------
 
