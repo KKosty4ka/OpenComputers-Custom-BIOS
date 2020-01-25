@@ -10,7 +10,7 @@ local function input()
     if e == "key_down" then
         if c == 13 then
             return output
-        else
+        else then
             output = output .. string.char(char)
         end
     end
