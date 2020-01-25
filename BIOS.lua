@@ -6,13 +6,13 @@ local gpu = cp(cl("gpu")())
 
 computer.getBootAddress = function()
 	local MemoryController = invoke(cl("eeprom")(), "getData")
-	return string.sub(MemoryController, 1, 36) --первый адрес в контроллере (1-36 символ)
+	return string.sub(MemoryController, 1, 36) --РїРµСЂРІС‹Р№ Р°РґСЂРµСЃ РІ РєРѕРЅС‚СЂРѕР»Р»РµСЂРµ (1-36 СЃРёРјРІРѕР»)
 end
 
 computer.setBootAddress = function(address)
 	if string.len(address) == 36 then
 		local MemoryController = invoke(cl("eeprom")(), "getData")
-		local newData = address .. string.sub(MemoryController, 37, string.len(MemoryController)) --перезапись первых 36 символов
+		local newData = address .. string.sub(MemoryController, 37, string.len(MemoryController)) --РїРµСЂРµР·Р°РїРёСЃСЊ РїРµСЂРІС‹С… 36 СЃРёРјРІРѕР»РѕРІ
 		return invoke(cl("eeprom")(), "setData", newData)
 	end
 end
