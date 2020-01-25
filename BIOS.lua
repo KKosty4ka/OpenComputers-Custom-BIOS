@@ -12,7 +12,7 @@ local function input()
             return output
         elseif c == 88 then
         else
-            output = output .. string.char(char)
+            output = output .. string.char(c)
         end
     end
 end
