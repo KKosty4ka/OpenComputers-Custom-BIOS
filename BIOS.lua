@@ -4,6 +4,7 @@ local cp = component.proxy
 local unicode = unicode or utf8
 local gpu = cp(cl("gpu")())
 local internet = cp(cl("internet")())
+local eeprom = cp(cl("eeprom")())
 
 local function input(x, y)
     local output = ""
@@ -40,7 +41,7 @@ computer.setBootAddress = function(address)
 end
 
 local function fillBackground()
-	local w,h = gpu.getResolution()
+	local w, h = gpu.getResolution()
 	gpu.fill(1, 1, w, h, " ")
 end
 
@@ -185,11 +186,8 @@ local function httpBoot()
                 break
             end
 		end
-        SetTextInTheMiddle(8,50,"Loading from URL...")
-        gpu.set(1, 1, code)
-        while true do
-            local hallow = "privet"
-        end
+        SetTextInTheMiddle(8, 50, "Loading from URL...")
+        load(code)()
     end
 end
 
@@ -226,8 +224,9 @@ local function menu()
     gpu.set(1, 2, "2 - Shutdown")
     gpu.set(1, 3, "3 - Boot menu")
     gpu.set(1, 4, "4 - BSoD")
+    gpu.set(1, 5, "5 - Flash EEPROM")
     
-    local index = input(1, 6)
+    local index = input(1, 7)
 
     if index == "1" then
         computer.shutdown(true)
@@ -237,6 +236,8 @@ local function menu()
         bootMenu()
     elseif index == "4" then
         error("", 0)
+    elseif index = "5" then
+        eeprom.set("")
     else
         menu()
     end
@@ -248,7 +249,7 @@ local function HiMenu()
 	gpu.setBackground(0)
 	fillBackground()
 
-	gpu.set(11,1,"KKosty4ka's BIOS e debug")
+	gpu.set(11,1,"KKosty4ka's BIOS f")
 	gpu.set(7,15,"Press F12 to enter the settings menu")
 	gpu.set(8,16,"Press any key to skip this message")
 
