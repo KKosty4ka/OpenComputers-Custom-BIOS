@@ -174,4 +174,4 @@ local function HiMenu()
 end
 ------------
 
-HiMenu()
+pcall(HiMenu)
