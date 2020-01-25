@@ -133,7 +133,8 @@ local function menu()
     gpu.set(1, 4, "4 - BSoD")
     
     index = input(1, 6)
-    
+    gpu.set(1, 10, type(index))
+    gpu.set(1, 11, index)
     if index == "1" then
         computer.shutdown(true)
     elseif index == "2" then
@@ -153,7 +154,7 @@ local function HiMenu()
 	gpu.setBackground(0)
 	fillBackground()
 
-	gpu.set(11,1,"KKosty4ka's BIOS b")
+	gpu.set(11,1,"KKosty4ka's BIOS c debug")
 	gpu.set(7,15,"Press F12 to enter the settings menu")
 	gpu.set(8,16,"Press any key to skip this message")
 
