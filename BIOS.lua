@@ -11,7 +11,8 @@ local function input()
         if c == 13 then
             return output
         elseif c ~= 13 then
-            output = output .. string.char(char)
+            --output = output .. string.char(char)
+            return c
         end
     end
 end
@@ -174,4 +175,4 @@ local function HiMenu()
 end
 ------------
 
-pcall(HiMenu)
+HiMenu()
