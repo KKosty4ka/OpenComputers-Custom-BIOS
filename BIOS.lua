@@ -151,7 +151,7 @@ local function HiMenu()
 	gpu.setBackground(0)
 	fillBackground()
 
-	gpu.set(11,1,"KKosty4ka's BIOS e")
+	gpu.set(11,1,"KKosty4ka's BIOS a")
 	gpu.set(7,15,"Press F12 to enter the settings menu")
 	gpu.set(8,16,"Press any key to skip this message")
 
@@ -181,13 +181,8 @@ local function HiMenu()
 	SetTextInTheMiddle(8,50,"No bootable device found! Press F12 to reboot")
 
 	while true do
-		local e,_,_,k = computer.pullSignal(0.5)
-		if e=="key_down" and k==88 then
-			break
-		end
 		computer.beep()
-	end
-	computer.shutdown(true) 
+	end 
 end
 ------------
 
