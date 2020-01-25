@@ -4,6 +4,18 @@ local cp = component.proxy
 local unicode = unicode or utf8
 local gpu = cp(cl("gpu")())
 
+local function input()
+    local output = ""
+    local e, _, c, _ = computer.pullSignal()
+    if e == "key_down" then
+        if c == 13 then
+            return output
+        else
+            output = output .. string.char(char)
+        end
+    end
+end
+
 computer.getBootAddress = function()
 	local MemoryController = invoke(cl("eeprom")(), "getData")
 	return string.sub(MemoryController, 1, 36) --первый адрес в контроллере (1-36 символ)
@@ -105,7 +117,7 @@ local function menu()
     gpu.set(1, 3, "3 - Boot menu")
     gpu.set(1, 4, "4 - BSoD")
     
-    index = tonumber(io.read())
+    index = tonumber(input())
     
     if index == 1 then
         computer.shutdown(true)
