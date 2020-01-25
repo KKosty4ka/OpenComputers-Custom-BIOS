@@ -4,7 +4,7 @@ local cp = component.proxy
 local unicode = unicode or utf8
 local gpu = cp(cl("gpu")())
 
-local function input()
+local function input(x, y)
     local output = ""
     local running = true
     
@@ -17,6 +17,8 @@ local function input()
             else
                 output = output .. string.char(c)
             end
+            
+            gpu.set(x, y, output)
         end
     end
     
@@ -110,6 +112,9 @@ end
 
 
 local function bootMenu()
+    gpu.setBackground(0)
+	fillBackground()
+    
     local counter = 1
     for address in cl("filesystem") do
         if (invoke(address, "exists", "/init.lua") and not invoke(address, "isDirectory", "init.lua")) then
@@ -119,6 +124,9 @@ local function bootMenu()
 end
 
 local function menu()
+    gpu.setBackground(0)
+	fillBackground()
+
     gpu.set(1, 1, "1 - Reboot")
     gpu.set(1, 2, "2 - Shutdown")
     gpu.set(1, 3, "3 - Boot menu")
@@ -168,6 +176,8 @@ local function HiMenu()
 		menu()
 	end
 	BootWithoutAddress()
+    gpu.setBackground(0)
+	fillBackground()
 	SetTextInTheMiddle(8,50,"No bootable device found! Press F12 to reboot")
 
 	while true do
