@@ -132,7 +132,7 @@ local function menu()
     gpu.set(1, 3, "3 - Boot menu")
     gpu.set(1, 4, "4 - BSoD")
     
-    index = tonumber(input())
+    index = tonumber(input(1, 6))
     
     if index == 1 then
         computer.shutdown(true)
