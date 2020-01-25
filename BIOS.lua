@@ -6,7 +6,7 @@ local gpu = cp(cl("gpu")())
 
 local function input()
     local output = ""
-    local e, _, c, _ = computer.pullSignal()
+    local e, _, _, c = computer.pullSignal()
     if e == "key_down" then
         if c == 13 then
             return output
