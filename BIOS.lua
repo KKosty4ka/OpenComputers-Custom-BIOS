@@ -3,6 +3,7 @@ local cl = component.list
 local cp = component.proxy
 local unicode = unicode or utf8
 local gpu = cp(cl("gpu")())
+local internet = cp(cl("internet")())
 
 local function input(x, y)
     local output = ""
@@ -110,16 +111,107 @@ local function BootWithoutAddress()
     end
 end
 
+local function BootWithAddress(address)
+    if (invoke(address, "exists", "/init.lua") and not invoke(address, "isDirectory", "init.lua")) then
+        computer.setBootAddress(address)
+
+		local handle, err
+		handle, err = invoke(address, "open", "/init.lua")
+
+		if handle then
+			local bootCode = ""
+			repeat
+				local chunk = invoke(address, "read", handle, math.huge)
+				bootCode = bootCode .. (chunk or "")
+			until not chunk
+			invoke(address, "close", handle)
+                    
+            SetTextInTheMiddle(8,50,"Loading OpenOS...")
+            load(bootCode)()
+        end
+    elseif (invoke(address, "exists", "/OS.lua") and not invoke(address, "isDirectory", "OS.lua")) then
+        computer.setBootAddress(address)
+
+		local handle, err
+		handle, err = invoke(address, "open", "/OS.lua")
+
+		if handle then
+			local bootCode = ""
+			repeat
+				local chunk = invoke(address, "read", handle, math.huge)
+				bootCode = bootCode .. (chunk or "")
+			until not chunk
+			invoke(address, "close", handle)
+                    
+            SetTextInTheMiddle(8,50,"Loading MineOS...")
+            load(bootCode)()
+        end
+    elseif (invoke(address, "exists", "/c_OS.lua") and not invoke(address, "isDirectory", "c_OS.lua")) then
+        computer.setBootAddress(address)
+
+		local handle, err
+		handle, err = invoke(address, "open", "/c_OS.lua")
+
+		if handle then
+			local bootCode = ""
+			repeat
+				local chunk = invoke(address, "read", handle, math.huge)
+				bootCode = bootCode .. (chunk or "")
+			until not chunk
+			invoke(address, "close", handle)
+                    
+            SetTextInTheMiddle(8,50,"Loading MineOS with \"Custom MineOS\" patch...")
+            load(bootCode)()
+        end
+    else
+        error("Computer startup error: OS not found!", 0)
+    end
+end
+
+local function httpBoot()
+    gpu.setBackground(0)
+	fillBackground()
+    
+    gpu.set(1, 1, "Enter URL:")
+    local url = input(1, 2)
+    
+    local handle, code, result, reason = internet.request(url), ""
+    if handle then
+		while true do
+            result, reason = handle.read(math.huge)
+            if result then
+                code = code .. result
+            else
+                break
+            end
+		end
+        SetTextInTheMiddle(8,50,"Loading from URL...")
+        load(code)()
+    end
+end
 
 local function bootMenu()
     gpu.setBackground(0)
 	fillBackground()
     
-    local counter = 1
+    gpu.set(1, 1, "1 - Http boot")
+    local counter = 2
+    local systems = {}
     for address in cl("filesystem") do
-        if (invoke(address, "exists", "/init.lua") and not invoke(address, "isDirectory", "init.lua")) then
-            print(address)
+        if (invoke(address, "exists", "/init.lua") and not invoke(address, "isDirectory", "init.lua")) or (invoke(address, "exists", "/OS.lua") and not invoke(address, "isDirectory", "OS.lua")) or (invoke(address, "exists", "/c_OS.lua") and not invoke(address, "isDirectory", "c_OS.lua")) then
+            gpu.set(1, counter, counter .. " - Ready to boot! - " .. address)
+        else
+            gpu.set(1, counter, counter .. " - " .. address)
         end
+        systems[counter] = address
+        counter = counter + 1
+    end
+    
+    local index = input(1, counter + 2)
+    if index == "1" then
+        httpBoot()
+    else
+        BootWithAddress(systems[tonumber(index)])
     end
 end
 
@@ -132,7 +224,7 @@ local function menu()
     gpu.set(1, 3, "3 - Boot menu")
     gpu.set(1, 4, "4 - BSoD")
     
-    index = input(1, 6)
+    local index = input(1, 6)
 
     if index == "1" then
         computer.shutdown(true)
@@ -141,7 +233,7 @@ local function menu()
     elseif index == "3" then
         bootMenu()
     elseif index == "4" then
-        error("BSoD", 0)
+        error("", 0)
     else
         menu()
     end
