@@ -236,7 +236,7 @@ local function menu()
         bootMenu()
     elseif index == "4" then
         error("", 0)
-    elseif index = "5" then
+    elseif index == "5" then
         eeprom.set("")
     else
         menu()
