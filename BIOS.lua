@@ -6,15 +6,21 @@ local gpu = cp(cl("gpu")())
 
 local function input()
     local output = ""
-    local e, _, _, c = computer.pullSignal()
-    if e == "key_down" then
-        if c == 13 then
-            return output
-        elseif c == 88 then
-        else
-            output = output .. string.char(c)
+    local running = true
+    
+    while running do
+        local e, _, _, c = computer.pullSignal()
+        if e == "key_down" then
+            if c == 13 then
+                running = false
+            elseif c == 88 then
+            else
+                output = output .. string.char(c)
+            end
         end
     end
+    
+    return output
 end
 
 computer.getBootAddress = function()
