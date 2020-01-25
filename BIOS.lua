@@ -5,7 +5,7 @@ local unicode = unicode or utf8
 local gpu = cp(cl("gpu")())
 
 local function input(x, y)
-    local output = ""
+    local output = ">"
     local running = true
     
     while running do
