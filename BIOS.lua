@@ -200,7 +200,7 @@ local function bootMenu()
     local systems = {}
     for address in cl("filesystem") do
         if (invoke(address, "exists", "/init.lua") and not invoke(address, "isDirectory", "init.lua")) or (invoke(address, "exists", "/OS.lua") and not invoke(address, "isDirectory", "OS.lua")) or (invoke(address, "exists", "/c_OS.lua") and not invoke(address, "isDirectory", "c_OS.lua")) then
-            gpu.set(1, counter, counter .. " - Ready to boot! - " .. address)
+            gpu.set(1, counter, counter .. " - ♦" .. address)
         else
             gpu.set(1, counter, counter .. " - " .. address)
         end
@@ -249,7 +249,7 @@ local function HiMenu()
 	gpu.setBackground(0)
 	fillBackground()
 
-	gpu.set(11,1,"KKosty4ka's BIOS f")
+	gpu.set(11,1,"KKosty4ka's BIOS BOOT MENU TEST")
 	gpu.set(7,15,"Press F12 to enter the settings menu")
 	gpu.set(8,16,"Press any key to skip this message")
 
