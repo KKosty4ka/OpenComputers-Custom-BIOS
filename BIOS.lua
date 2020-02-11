@@ -220,7 +220,7 @@ local function fakeRoot(address)
     local code = [[computer.getBootAddress = function()
     return ]] .. address .. [[
 end]]
-    load(code)
+    load(code)()
 end
 
 local function fakeRootMenu()
@@ -264,6 +264,7 @@ local function menu()
         eeprom.set("")
     elseif index == "6" then
         fakeRootMenu()
+        menu()
     else
         menu()
     end
