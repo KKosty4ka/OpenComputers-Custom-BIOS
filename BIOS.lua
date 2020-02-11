@@ -217,9 +217,10 @@ local function bootMenu()
 end
 
 local function fakeRoot(address)
-    computer.getBootAddress = function()
-        return address
-    end
+    local code = [[computer.getBootAddress = function()
+    return ]] .. address .. [[
+end]]
+    load(code)
 end
 
 local function fakeRootMenu()
