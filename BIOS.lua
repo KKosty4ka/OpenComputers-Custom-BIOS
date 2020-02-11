@@ -216,13 +216,6 @@ local function bootMenu()
     end
 end
 
-local function fakeRoot(address)
-    local code = [[computer.getBootAddress = function()
-    return ]] .. address .. [[
-end]]
-    load(code)()
-end
-
 local function fakeRootMenu()
     gpu.setBackground(0)
 	fillBackground()
@@ -236,7 +229,10 @@ local function fakeRootMenu()
     end
     
     local index = input(1, counter + 2)
-    fakeRoot(systems[tonumber(index)])
+
+    computer.getBootAddress = function()
+        return systems[tonumber(index)]
+    end
 end
 
 local function menu()
