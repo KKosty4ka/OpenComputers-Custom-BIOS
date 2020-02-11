@@ -29,13 +29,13 @@ end
 
 computer.getBootAddress = function()
 	local MemoryController = invoke(cl("eeprom")(), "getData")
-	return string.sub(MemoryController, 1, 36) --первый адрес в контроллере (1-36 символ)
+	return string.sub(MemoryController, 1, 36)
 end
 
 computer.setBootAddress = function(address)
 	if string.len(address) == 36 then
 		local MemoryController = invoke(cl("eeprom")(), "getData")
-		local newData = address .. string.sub(MemoryController, 37, string.len(MemoryController)) --перезапись первых 36 символов
+		local newData = address .. string.sub(MemoryController, 37, string.len(MemoryController))
 		return invoke(cl("eeprom")(), "setData", newData)
 	end
 end
@@ -216,6 +216,28 @@ local function bootMenu()
     end
 end
 
+local function fakeRoot(address)
+    computer.getBootAddress = function()
+        return address
+    end
+end
+
+local function fakeRootMenu()
+    gpu.setBackground(0)
+	fillBackground()
+    
+    local counter = 1
+    local systems = {}
+    for address in cl("filesystem") do
+        gpu.set(1, counter, counter .. " - [" .. cp(address).getLabel() .. "]" .. address)
+        systems[counter] = address
+        counter = counter + 1
+    end
+    
+    local index = input(1, counter + 2)
+    fakeRoot(systems[tonumber(index)])
+end
+
 local function menu()
     gpu.setBackground(0)
 	fillBackground()
@@ -225,6 +247,7 @@ local function menu()
     gpu.set(1, 3, "3 - Boot menu")
     gpu.set(1, 4, "4 - BSoD")
     gpu.set(1, 5, "5 - Flash EEPROM")
+    gpu.set(1, 6, "6 - Fake root")
     
     local index = input(1, 7)
 
@@ -238,6 +261,8 @@ local function menu()
         error("", 0)
     elseif index == "5" then
         eeprom.set("")
+    elseif index == "6" then
+        fakeRootMenu()
     else
         menu()
     end
